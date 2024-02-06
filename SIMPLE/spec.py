@@ -136,7 +136,7 @@ args.pretrained_models = pretrained_models
 
 # if working with domainbed dataset, set data directory
 if args.dataset == 'domainbed':
-    data_dir = '/home/private_user_1/v-liziyue/ziyue/domainbed_inference_saved_' + args.domainbed_dataset + '/'
+    data_dir = '/home/kit/anthropomatik/ox4599/' + args.domainbed_dataset + '/'
 
 # initialize model pool and ensemble network
 model_pool = Model_pool(model_name = pretrained_models, model_num = args.model_num, model_idx = args.model_idx, dataset = args.dataset,sub_dataset = args.domainbed_dataset, data_dir = data_dir, args = args)
