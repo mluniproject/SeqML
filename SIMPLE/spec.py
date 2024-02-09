@@ -11,6 +11,7 @@ import torch
 import random
 import argparse
 import numpy as np
+import wandb
 from tensorboardX import SummaryWriter
 
 from utils import Logger
@@ -78,7 +79,8 @@ parser.add_argument("--child_weight", "--child_weight", help="this is child_weig
 parser.add_argument("--confidence_weight", "--confidence_weight", help="this is confidence_weight", dest="confidence_weight", type=float, default=1.0)
 
 args = parser.parse_args()
-
+description = str(args.domainbed_test_env)
+wandb.init(project="SIMPLE", name = description)
 # the lr of clf is a scale (args.clf_lr) of the lr of the ensemble network
 # be attention that current the ensemble network is a GNN model, so the tuning of lr will change a large
 args.clf_lr = args.clf_lr*args.ensemble_lr
@@ -175,6 +177,7 @@ else: # else train model
         # validate model and get accuracy and topk indices
         val_acc, topk_indices = validate_ensemble(epoch, ensemble_net, 
             ensemble_net.val_loader, split = 'validation', model_pool = model_pool, args = args)
+        wandb.log({"val_accuracy": val_acc})
 
         # if current epoch has best validation accuracy so far, update best validation accuracy and test accuracy
         if best_val_acc < val_acc:
@@ -194,6 +197,7 @@ else: # else train model
             # test model and get accuracy
             test_acc, _ = validate_ensemble(epoch, ensemble_net,\
                 ensemble_net.test_loader, split = 'evaluation', model_pool = model_pool, args = args)
+            wandb.log({"test_accuracy": test_acc})
         else:
             early_stop_count += 1
 
@@ -245,6 +249,7 @@ else: # else train model
     res['num_params'] = ensemble_net.num_params
 
     # save results in json format
+    wandb.finish()
     if args.idx_for_infer_save == -1:
         with open(f"{save_dir}/{args.random_seed}_{args.domainbed_test_env}_res.json", "w") as f:
             json.dump(res, f, indent=4, sort_keys=True)

@@ -128,8 +128,7 @@ class Model_pool(torch.nn.Module):
             )
 
             # Load the model state dict from the specified path
-            checkpoint = torch.load('/home/kit/anthropomatik/ox4599/
-pytorch_pretrained_models/hub/checkpoints/' + \
+            checkpoint = torch.load('/home/kit/anthropomatik/ox4599/pytorch_pretrained_models/hub/checkpoints/' + \
                 aux_info, map_location='cpu')
 
             model.load_state_dict(checkpoint['model'])

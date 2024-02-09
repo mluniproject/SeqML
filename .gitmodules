@@ -10,3 +10,6 @@
 	branch = main
 	path = SIMPLE/miscellaneous/domainbed
 	url = https://github.com/l6z1z9yemily/domainbed.git
+[submodule "SIMPLE/miscellaneous/pytorch-image-models"]
+	path = SIMPLE/miscellaneous/pytorch-image-models
+	url = https://github.com/huggingface/pytorch-image-models.git
